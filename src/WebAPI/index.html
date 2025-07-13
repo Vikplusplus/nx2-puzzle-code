@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>nx2 puzzle</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; }
+        .navbar { display: flex; justify-content: center; gap: 20px; padding: 10px; background: #ddd; }
+        .navbar button { padding: 10px 20px; cursor: pointer; }
+        .content { display: none; padding: 20px; }
+        .active { display: block; }
+    </style>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="navbar">
+        <button onclick="showPage('numbered')">Numbered variation</button>
+        <button onclick="showPage('twoColor')">2-color variation</button>
+        <button onclick="showPage('kColor')">k-color variation</button>
+    </div>
+
+    <div id="numbered" class="content active">
+        <h2>Numbered nx2 puzzle</h2>
+        <div id="board-container_numbered"></div>
+        <div id="moves_numbered">
+            <button onclick="applyMove('U')">U</button>
+            <button onclick="applyMove('D')">D</button>
+            <button onclick="applyMove('L')">L</button>
+            <button onclick="applyMove('R')">R</button>
+        </div>
+        <div id="new_starting_state_numbered">
+            <label for="amount_of_rows_numbered">Amount of rows (n):</label>
+            <select id="amount_of_rows_numbered">
+                <option value="4">4</option>
+                <option value="5" selected>5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <button onclick="generateState()">Generate new starting state</button>
+        </div>
+        <button id="optimal_solution_numbered" onclick="viewOptimalSolution()">View Optimal Solution</button>
+        <button id="RowByRow_numbered" onclick="viewAlgorithm('RowByRow')">View RowByRow Algorithm</button>
+        <button id="DivideOnce_Numbered" onclick="viewAlgorithm('DivideOnce')">View DivideOnce Algorithm</button>
+        <button id="DivideAndConquer_Numbered" onclick="viewAlgorithm('DivideAndConquer')">View DivideAndConquer Algorithm</button>
+    </div>
+
+    <div id="twoColor" class="content">
+        <h2>2-color nx2 puzzle</h2>
+        <div id="board-container_twoColor"></div>
+        <div id="moves_twoColor">
+            <button onclick="applyMove('U')">U</button>
+            <button onclick="applyMove('D')">D</button>
+            <button onclick="applyMove('L')">L</button>
+            <button onclick="applyMove('R')">R</button>
+        </div>
+        <div id="new_starting_state_twoColor">
+            <label for="amount_of_rows_twoColor">Amount of rows (n):</label>
+            <select id="amount_of_rows_twoColor">
+                <option value="4">4</option>
+                <option value="5" selected>5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <button onclick="generateState()">Generate new starting state</button>
+        </div>
+        <button id="optimal_solution_twoColor" onclick="viewOptimalSolution()">View Optimal Solution</button>
+        <button id="RowByRow_twoColor" onclick="viewAlgorithm('RowByRow')">View RowByRow Algorithm</button>
+        <button id="Partition_twoColor" onclick="viewAlgorithm('PartitionOnce')">View PartitionOnce Algorithm</button>
+    </div>
+
+    <div id="kColor" class="content">
+        <h2>k-color nx2 puzzle</h2>
+        <div id="board-container_kColor"></div>
+        <div id="moves_kColor">
+            <button onclick="applyMove('U')">U</button>
+            <button onclick="applyMove('D')">D</button>
+            <button onclick="applyMove('L')">L</button>
+            <button onclick="applyMove('R')">R</button>
+        </div>
+        <div id="new_starting_state_kColor">
+            <label for="amount_of_rows_kColor">Amount of rows (n):</label>
+            <select id="amount_of_rows_kColor">
+                <option value="4">4</option>
+                <option value="5" selected>5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+            </select>
+            <label for="amount_of_colors_kColor">Amount of colors (k):</label>
+            <input type="number" id="amount_of_colors_kColor" step="1">
+            <button onclick="generateState()">Generate new starting state</button>
+        </div>
+        <button id="optimal_solution_kColor" onclick="viewOptimalSolution()">View Optimal Solution</button>
+        <button id="RowByRow_kColor" onclick="viewAlgorithm('RowByRow')">View RowByRow Algorithm</button>
+        <button id="ColorByColor_kColor" onclick="viewAlgorithm('ColorByColor')">View ColorByColor Algorithm</button>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
