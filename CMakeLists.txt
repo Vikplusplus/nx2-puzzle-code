@@ -1,9 +1,9 @@
 cmake_minimum_required(VERSION 3.29)
-project(nx2_puzzle_Code)
+project(nx2-puzzle-code)
 
 set(CMAKE_CXX_STANDARD 20)
 
-add_executable(nx2_puzzle_Code main.cpp
+add_executable(nx2-puzzle-code main.cpp
 
         Algorithms/general.h
         Algorithms/general.cpp
@@ -51,6 +51,6 @@ add_executable(nx2_puzzle_Code main.cpp
 )
 
 if (WIN32)
-    target_link_libraries(nx2_puzzle_Code ws2_32)
+    target_link_libraries(nx2-puzzle-code ws2_32)
 endif()
 
