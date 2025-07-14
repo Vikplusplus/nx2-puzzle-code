@@ -61,7 +61,6 @@ namespace kClr {
                     getCellOfTile(boardStateWithCorrectParity, pairColorAmount - 1 + (lowestPairColor != minColor))
                 };
 
-                // If the parity is wrong, we need to swap two tiles with the same label.
                 if (!num::isBoardStateSolvable(boardStateWithCorrectParity)) {
                     std::swap(
                         boardStateWithCorrectParity[cellsOfLowestPair.first],
@@ -86,7 +85,6 @@ namespace kClr {
                     moveSequence.append("L");
                 }
                 else {
-                    // targetTile is the last remaining tile with color k-1
                     int targetTile = 2 * row + 2;
                     while (targetTile <= boardState.size() && boardState[targetTile] != k - 1) {
                         targetTile++;
@@ -120,7 +118,7 @@ namespace kClr {
             return moveSequence;
         }
 
-        std::vector<int> last2Rows_boardState (4);
+        std::vector<int> boardState_last2Rows (4);
 
         int minColor = k - 1;
         for (int i = 2 * row; i < boardState.size(); i++) {
@@ -128,13 +126,13 @@ namespace kClr {
         }
 
         for (int i = 0; i < 4; i++) {
-            last2Rows_boardState[i] = (boardState[2 * row + i] == 0) ? 0 : boardState[2 * row + i] - (minColor - 1);
+            boardState_last2Rows[i] = (boardState[2 * row + i] == 0) ? 0 : boardState[2 * row + i] - (minColor - 1);
         }
 
-        std::string last2Rows_optimalSequence = optimalSolution(last2Rows_boardState);
+        std::string optimalSequence_last2Rows = optimalSolution(boardState_last2Rows);
 
-        applyMoveSequence(boardState, cellOfEmptySpace, last2Rows_optimalSequence);
-        moveSequence.append(last2Rows_optimalSequence);
+        applyMoveSequence(boardState, cellOfEmptySpace, optimalSequence_last2Rows);
+        moveSequence.append(optimalSequence_last2Rows);
 
         return moveSequence;
     }

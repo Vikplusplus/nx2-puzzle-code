@@ -1,8 +1,6 @@
 
 #include "solveRow.h"
 
-#include <iostream>
-
 std::string solveRow(std::vector<int> &boardState, int &cellOfEmptySpace, int row, int label1, int label2) {
 
     std::string moveSequence;
@@ -23,7 +21,6 @@ std::string solveRow_sameLabels(std::vector<int> &boardState, int &cellOfEmptySp
 
     std::string moveSequence;
 
-    // Put first tile with target label into row
     if (!rowContainsLabel(boardState, row, label)) {
 
         int cellOfFirstTarget = 2 * (row + 1);
@@ -31,21 +28,17 @@ std::string solveRow_sameLabels(std::vector<int> &boardState, int &cellOfEmptySp
 
 
         if (getColOfCell(cellOfFirstTarget) == 0 && boardState[cellOfFirstTarget + 1] == label) {
-            // If the tile right to firstTarget also has the target label, we switch to
-            // targeting the tile to the right depending on the position of the empty space.
             if (
                 (getRowOfCell(cellOfEmptySpace) < getRowOfCell(cellOfFirstTarget) && getColOfCell(cellOfEmptySpace) == 1) ||
                 (getRowOfCell(cellOfEmptySpace > getRowOfCell(cellOfFirstTarget)) && getColOfCell(cellOfEmptySpace) == 0)) {
                 cellOfFirstTarget++;
             }
         }
-        // If the empty space is below firstTarget and in the same column, move the empty space horizontally.
         if (getRowOfCell(cellOfEmptySpace) > getRowOfCell(cellOfFirstTarget) &&
             getColOfCell(cellOfEmptySpace) == getColOfCell(cellOfFirstTarget)) {
             moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
         }
 
-        // Move the empty space above firstTarget.
         moveSequence.append(rowFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, cellOfFirstTarget - 2));
         applyMove(boardState, cellOfEmptySpace, 'U');
         moveSequence.append("U");
@@ -55,7 +48,6 @@ std::string solveRow_sameLabels(std::vector<int> &boardState, int &cellOfEmptySp
 
     if (boardState[2 * row] == label && boardState[2 * row + 1] == label) return moveSequence;
 
-    // Top row now contains one correctly colored tile in targetColumn.
     int targetColumn = (boardState[2 * row] == label) ? 0 : 1;
 
     if (getRowOfCell(cellOfEmptySpace) == row && boardState[cellOfEmptySpace + 2] == label) {
@@ -63,10 +55,8 @@ std::string solveRow_sameLabels(std::vector<int> &boardState, int &cellOfEmptySp
         moveSequence.append("U");
         return moveSequence;
     }
-    // Put another tile with target label below first the one.
     if (boardState[2 * (row + 1) + targetColumn] != label) {
 
-        // If a target tile is already in the correct row but in the wrong column.
         if (boardState[2 * (row + 1) + 1 - targetColumn] == label) {
             moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, 2 * (row + 1) + targetColumn));
             moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
@@ -82,22 +72,18 @@ std::string solveRow_sameLabels(std::vector<int> &boardState, int &cellOfEmptySp
 
             while (closestTarget <= boardState.size() && boardState[closestTarget] != label) closestTarget++;
             if (getColOfCell(closestTarget) == 0 && boardState[closestTarget + 1] == label) {
-                // Switch to targeting the tile in the right column depending on the position of the empty space.
                 if (targetColumn == 1) closestTarget++;
             }
 
-            // Move the target tile into the correct column.
             if (getColOfCell(closestTarget) != targetColumn) {
                 moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, 2 * getRowOfCell(closestTarget) + targetColumn));
                 moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
                 closestTarget = (targetColumn == 1) ? (closestTarget + 1) : (closestTarget - 1);
             }
-            // If the empty space is below the target and in the same column, move the empty space horizontally.
             if (getRowOfCell(cellOfEmptySpace) > getRowOfCell(closestTarget) &&
                 getColOfCell(cellOfEmptySpace) == getColOfCell(closestTarget)) {
                 moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
             }
-            // Move the empty space above the target tile.
             moveSequence.append(rowFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, closestTarget - 2));
 
             applyMove(boardState, cellOfEmptySpace, 'U');
@@ -107,7 +93,6 @@ std::string solveRow_sameLabels(std::vector<int> &boardState, int &cellOfEmptySp
 
         }
     }
-    // Complete solving the row.
     moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, 2 * row + 1 - targetColumn));
     moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
     applyMove(boardState, cellOfEmptySpace, 'U');
@@ -119,7 +104,6 @@ std::string solveRow_sameLabels(std::vector<int> &boardState, int &cellOfEmptySp
 
 std::string solveRow_diffLabels(std::vector<int> &boardState, int &cellOfEmptySpace, int row, int label1, int label2) {
 
-    // Some cases where the row can quickly be solved.
     if (boardState[2 * row + 1] == label2) {
         if (boardState[2 * row] == label1) return "";
 
@@ -130,7 +114,6 @@ std::string solveRow_diffLabels(std::vector<int> &boardState, int &cellOfEmptySp
     }
     std::string moveSequence;
 
-    // Some more exceptions where solving the row is possible quickly.
     if (boardState[2 * row] == label1) {
 
         if (cellOfEmptySpace == 2 * row + 1 && boardState[2 * (row + 1) + 1] == label2) {
@@ -160,24 +143,20 @@ std::string solveRow_diffLabels(std::vector<int> &boardState, int &cellOfEmptySp
 
     if (target != 2 * row + 1) {
 
-        // Move the first target away from its target cell so that the row can more easily be solved later.
         if (target == 2 * row) {
             moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, 2 * row + 1));
             moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
         }
         else {
-            // Move the target tile into the right column.
             if (getColOfCell(target) == 0) {
                 moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, target + 1));
                 moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
                 target++;
             }
-            // If the empty space is below the target and in the same column, move the empty space horizontally.
             if (getColOfCell(cellOfEmptySpace) == 1 && cellOfEmptySpace > target) {
                 moveSequence.append(switchColOfEmptySpace(boardState,cellOfEmptySpace));
             }
 
-            // Move the empty space above the target tile.
             moveSequence.append(rowFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, target - 2));
 
             applyMove(boardState, cellOfEmptySpace, 'U');
@@ -186,9 +165,7 @@ std::string solveRow_diffLabels(std::vector<int> &boardState, int &cellOfEmptySp
             moveSequence.append(liftTile(boardState, cellOfEmptySpace, row));
         }
     }
-    // The tile in cell (2 * row + 1) is now labeled with label1.
 
-    // If the target row is in opposite order, apply a special move sequence.
     if (boardState[2 * row] == label2) {
         moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, 2 * row));
 
@@ -200,7 +177,6 @@ std::string solveRow_diffLabels(std::vector<int> &boardState, int &cellOfEmptySp
     target = 2 * row + 2;
     while (target <= boardState.size() && boardState[target] != label2) target++;
 
-    // This is only relevant in the 2-color and k-color variations.
     if (getColOfCell(target) == 0 && boardState[target + 1] == label2) target++;
 
     if (target != 2 * (row + 1) + 1) {
@@ -213,7 +189,6 @@ std::string solveRow_diffLabels(std::vector<int> &boardState, int &cellOfEmptySp
 
                 return moveSequence;
             }
-            // If the target tile is already in the correct row but in the wrong column.
             moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, target + 1));
             moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
         }
@@ -223,17 +198,14 @@ std::string solveRow_diffLabels(std::vector<int> &boardState, int &cellOfEmptySp
                 moveSequence.append("U");
             }
 
-            // Move the target tile into the correct column.
             if (getColOfCell(target) == 0) {
                 moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, target + 1));
                 moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
                 target++;
             }
-            // If the empty space is below the target and in the same column, move the empty space horizontally.
             if (getColOfCell(cellOfEmptySpace) == 1 && cellOfEmptySpace > target) {
                 moveSequence.append(switchColOfEmptySpace(boardState,cellOfEmptySpace));
             }
-            // Move the empty space above firstTarget.
             moveSequence.append(rowFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, target - 2));
 
             applyMove(boardState, cellOfEmptySpace, 'U');
@@ -242,7 +214,6 @@ std::string solveRow_diffLabels(std::vector<int> &boardState, int &cellOfEmptySp
             moveSequence.append(liftTile(boardState, cellOfEmptySpace, row + 1));
         }
     }
-    // Complete solving the row.
     moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, 2 * row));
 
     applyMoveSequence(boardState, cellOfEmptySpace, "LU");
@@ -266,7 +237,6 @@ std::string liftTile(std::vector<int> &boardState, int &cellOfEmptySpace, int ro
 std::string liftTileByOneRow(std::vector<int> &boardState, int &cellOfEmptySpace) {
 
     std::string moveSequence;
-    // Go around the target tile and then move it up.
     moveSequence.append(switchColOfEmptySpace(boardState, cellOfEmptySpace));
 
     applyMoveSequence(boardState, cellOfEmptySpace, "DD");

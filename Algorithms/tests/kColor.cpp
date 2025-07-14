@@ -7,7 +7,6 @@
 #include <iostream>
 #include <vector>
 
-
 namespace kClr {
 
     void runTest_kFixed() {

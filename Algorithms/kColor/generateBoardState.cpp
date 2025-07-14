@@ -2,7 +2,6 @@
 #include "generateBoardState.h"
 #include <random>
 #include <algorithm>
-#include <iostream>
 
 namespace kClr {
 

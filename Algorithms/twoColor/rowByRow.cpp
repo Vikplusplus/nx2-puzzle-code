@@ -70,16 +70,16 @@ namespace twoClr {
             return moveSequence;
         }
 
-        std::vector<int> last2Rows_boardState (4);
+        std::vector<int> boardState_last2Rows (4);
         for (int i = 0; i < 4; i++) {
-            last2Rows_boardState[i] = boardState[2 * row + i];
+            boardState_last2Rows[i] = boardState[2 * row + i];
         }
 
-        std::string last2Rows_optimalSolution = optimalSolution(last2Rows_boardState);
+        std::string optimalSolution_last2Rows = optimalSolution(boardState_last2Rows);
 
-        applyMoveSequence(boardState, cellOfEmptySpace, last2Rows_optimalSolution);
+        applyMoveSequence(boardState, cellOfEmptySpace, optimalSolution_last2Rows);
 
-        moveSequence.append(last2Rows_optimalSolution);
+        moveSequence.append(optimalSolution_last2Rows);
 
         return moveSequence;
     }

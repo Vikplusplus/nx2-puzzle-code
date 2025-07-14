@@ -4,7 +4,6 @@
 #include "../numbered/rowByRow.h"
 #include "../numbered/divideOnce.h"
 #include "../numbered/divideAndConquer.h"
-#include "../optimalSolution.h"
 #include <fstream>
 #include <iostream>
 #include <vector>
@@ -47,7 +46,7 @@ namespace num {
             out << n << "," << y_RowByRow << "," << y_DivideOnce << "," << y_DivideAndConquer << "\n";
             std::cout << "Testing finished for n = " << n << std::endl;
         }
-        std::cout << "Test completed for numbered algorithms." << std::endl;
+        std::cout << "Test completed for numbered variation." << std::endl;
     }
 
 

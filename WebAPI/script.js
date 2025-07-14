@@ -130,8 +130,10 @@ async function generateState() {
     const n = parseInt(document.getElementById(`amount_of_rows_${variation}`).value);
     let k = null;
 
+    console.log("Test!")
+
     if (variation === 'numbered') {
-        const optimalSolution_button = document.getElementById("optimal_solution_numbered");
+        const optimalSolution_button = document.getElementById("optimalSolution_numbered");
         if (n > 5) {
             optimalSolution_button.disabled = true;
             optimalSolution_button.style.opacity = "0.5";
@@ -143,7 +145,7 @@ async function generateState() {
         }
     }
     else if (variation === 'kColor') {
-        const optimalSolution_button = document.getElementById("optimal_solution_kColor");
+        const optimalSolution_button = document.getElementById("optimalSolution_kColor");
         if (n > 5) {
             optimalSolution_button.disabled = true;
             optimalSolution_button.style.opacity = "0.5";

@@ -1,10 +1,6 @@
 
 #include "divideOnce.h"
 #include "rowByRow.h"
-#include <cmath>
-
-#include <iostream>
-
 #include "../partition.h"
 
 namespace num {

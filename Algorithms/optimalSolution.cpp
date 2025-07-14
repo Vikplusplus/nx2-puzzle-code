@@ -1,6 +1,5 @@
 
 #include "optimalSolution.h"
-
 #include <queue>
 #include <unordered_set>
 #include <utility>
@@ -31,7 +30,6 @@ std::string optimalSolution(std::vector<int> &boardState, const std::vector<int>
 
     std::queue<Node> queue;
 
-    // The root of the search tree is the input board state.
     Node root = Node(boardState, nullptr, '\0');
 
     queue.push(root);
@@ -40,7 +38,6 @@ std::string optimalSolution(std::vector<int> &boardState, const std::vector<int>
 
     Node currentNode = root;
 
-    // Traverse the search tree with BFS.
     while (!queue.empty()) {
 
         currentNode = queue.front();
@@ -50,7 +47,6 @@ std::string optimalSolution(std::vector<int> &boardState, const std::vector<int>
 
         if (currentBoardState == targetState) break;
 
-        // Do not visit a node for a second time.
         if (visitedBoardStates.contains(currentBoardState)) continue;
 
         visitedBoardStates.insert(currentBoardState);
@@ -64,8 +60,6 @@ std::string optimalSolution(std::vector<int> &boardState, const std::vector<int>
 
         std::shared_ptr<Node> parent = std::make_shared<Node>(currentNode);
 
-        /* If the visited node is not the target state, go through every possible move
-         * and insert the resulting board states into the queue. */
         if (rowOfEmptySpace < n - 1) {
             applyMove(nextBoardState, cellOfEmptySpace, 'U');
             queue.emplace(nextBoardState, parent, 'U');
@@ -96,7 +90,6 @@ std::string optimalSolution(std::vector<int> &boardState, const std::vector<int>
     std::string optimalMoveSequence;
     std::shared_ptr<Node> currentNodePointer = std::make_shared<Node>(currentNode);
 
-    // After the target state was found, backtrack with the parent pointers to get the optimal move sequence.
     while (currentNodePointer->parent) {
         optimalMoveSequence = currentNodePointer->direction + optimalMoveSequence;
         currentNodePointer = currentNodePointer->parent;

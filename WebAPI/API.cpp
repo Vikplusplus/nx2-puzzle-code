@@ -6,6 +6,7 @@
 #include "../Algorithms/numbered/generateBoardState.h"
 #include "../Algorithms/numbered/rowByRow.h"
 #include "../Algorithms/numbered/divideOnce.h"
+#include "../Algorithms/numbered/divideAndConquer.h"
 
 #include "../Algorithms/twoColor/generateBoardState.h"
 #include "../Algorithms/twoColor/rowByRow.h"
@@ -17,8 +18,6 @@
 
 #include "httplib.h"
 #include <fstream>
-
-#include "../Algorithms/numbered/divideAndConquer.h"
 
 void runAPI() {
     httplib::Server server;
@@ -49,7 +48,6 @@ void runAPI() {
         json j = boardStateToJson(initialBoardState);
         res.set_content(j.dump(), "application/json");
     });
-
 
     server.Post("/move", [](const httplib::Request& req, httplib::Response& res) {
         auto body = json::parse(req.body);
@@ -193,8 +191,7 @@ void runAPI() {
         res.set_content(response.dump(), "application/json");
     });
 
-
-    std::cout << "Server running at http://localhost:8080\n";
+    std::cout << "Server running at http://localhost:8080" << std::endl;
     server.listen("localhost", 8080);
 }
 

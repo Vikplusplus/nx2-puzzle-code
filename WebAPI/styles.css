@@ -1,7 +1,47 @@
+@import url('https://cdn.jsdelivr.net/gh/chrisjbillington/cm-web-fonts@latest/fonts.css');
+
 body {
     font-family: Arial, sans-serif;
     text-align: center;
 }
+
+h2 {
+    font-family: "Computer Modern Serif", serif;
+}
+
+button {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 8px 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+button:hover {
+    background-color: #d5d5d5;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+input, select {
+    background-color: #e0e0e0;
+    color: #333;
+    padding: 8px 12px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+    transition: background-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+input:focus, select:focus {
+    outline: none;
+    background-color: #d5d5d5;
+    box-shadow: 0 0 3px rgba(0, 0, 0, 0.2);
+}
+
 
 #board-container_numbered {
     display: grid;
@@ -38,20 +78,9 @@ body {
     justify-content: center;
     font-size: 24px;
     font-weight: bold;
-    background-color: lightblue;
+    background-color: blanchedalmond;
     border: 2px solid #000;
 }
-
-.tile_2colored {
-    width: 80px;
-    height: 80px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: 2px solid #000;
-}
-.black { background-color: #232020; }
-.white { background-color: #fff6f6; }
 
 .empty {
     background-color: white;

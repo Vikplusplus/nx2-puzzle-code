@@ -6,7 +6,6 @@
 #include "../solveRow.h"
 
 #include <cmath>
-#include <iostream>
 #include <list>
 
 namespace num {
@@ -70,7 +69,6 @@ namespace num {
             }
 
         }
-        std::cout << partitionBorders.front() << std::endl;
 
         std::vector<int> boardState_lastRows (2 * (n - topRow));
 

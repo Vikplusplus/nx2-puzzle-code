@@ -1,16 +1,13 @@
 
 #include "colorByColor.h"
-
-#include <cmath>
-#include <iostream>
-
 #include "rowByRow.h"
-#include "../twoColor/partitionOnce.h"
 #include "../numbered/generateBoardState.h"
 #include "../optimalSolution.h"
 #include "../partition.h"
 #include "../solveRow.h"
 #include "../numbered/rowByRow.h"
+
+#include <cmath>
 
 namespace kClr {
 
@@ -31,7 +28,7 @@ namespace kClr {
         int rowOfLowestPair = floor((lowestPair - 1) / 2);
 
         int firstColorInRowOfLowestPair = -1;
-        if (rowOfLowestPair < n - 3) firstColorInRowOfLowestPair = targetState[2 * rowOfLowestPair];
+        if (rowOfLowestPair <= n - 3) firstColorInRowOfLowestPair = targetState[2 * rowOfLowestPair];
 
         int currentColor;
         for (currentColor = 1; currentColor < k; currentColor++) {
@@ -44,19 +41,19 @@ namespace kClr {
             if (currentColorAmount == 0) {
                 continue;
             }
-
             if (currentColor == firstColorInRowOfLowestPair) {
 
-                int tilesExcludedFromParition = 0;
+
+                int tilesExcludedFromPartition = 0;
                 for (int i = 0; i < 2; i++) {
-                    if (targetState[2 * rowOfLowestPair + i] == firstColorInRowOfLowestPair) tilesExcludedFromParition++;
+                    if (targetState[2 * rowOfLowestPair + i] == firstColorInRowOfLowestPair) tilesExcludedFromPartition++;
                 }
 
                 int j = boardState.size() - 1;
-                while (tilesExcludedFromParition) {
+                while (tilesExcludedFromPartition) {
                     if (boardState[j] == currentColor) {
                         boardState[j] = -1;
-                        tilesExcludedFromParition--;
+                        tilesExcludedFromPartition--;
                         currentColorAmount--;
                     }
                     j--;
@@ -105,7 +102,7 @@ namespace kClr {
 
                 topRow += std::floor(currentColorAmount / 2);
 
-                std::vector<int> boardStateWithCorrectParity (2 * (n - rowOfLowestPair));
+                std::vector<int> boardState_correctParity (2 * (n - rowOfLowestPair));
 
                 for (int i = 2 * topRow; i < boardState.size(); i++) {
                     if (boardState[i] == -1) boardState[i] = currentColor;
@@ -116,54 +113,41 @@ namespace kClr {
                 int firstCell = 2 * topRow;
 
                 int pairColorAmount = 0;
-                for (int i = 0; i < boardStateWithCorrectParity.size(); i++) {
+                for (int i = 0; i < boardState_correctParity.size(); i++) {
                     if (boardState[firstCell + i] == currentColor || boardState[firstCell + i] == lowestPairColor) {
-                        boardStateWithCorrectParity[i] = boardState[firstCell + i] - (currentColor - 1);
+                        boardState_correctParity[i] = boardState[firstCell + i] - (currentColor - 1);
 
                         if (boardState[firstCell + i] == lowestPairColor) {
-                            boardStateWithCorrectParity[i] += pairColorAmount;
+                            boardState_correctParity[i] += pairColorAmount;
                             pairColorAmount++;
                         }
                     }
                 }
 
-                for (int i = 0; i < boardStateWithCorrectParity.size(); i++) {
-                    if (firstCell + i != cellOfEmptySpace && boardStateWithCorrectParity[i] == 0) {
-                        boardStateWithCorrectParity[i] =
+                for (int i = 0; i < boardState_correctParity.size(); i++) {
+                    if (firstCell + i != cellOfEmptySpace && boardState_correctParity[i] == 0) {
+                        boardState_correctParity[i] =
                             boardState[firstCell + i] - (currentColor - 1) + (pairColorAmount - 1);
                     }
                 }
 
                 std::pair cellsOfLowestPair = {
-                    getCellOfTile(boardStateWithCorrectParity, pairColorAmount + (lowestPairColor != currentColor)),
-                    getCellOfTile(boardStateWithCorrectParity, pairColorAmount - 1 + (lowestPairColor != currentColor))
+                    getCellOfTile(boardState_correctParity, pairColorAmount + (lowestPairColor != currentColor)),
+                    getCellOfTile(boardState_correctParity, pairColorAmount - 1 + (lowestPairColor != currentColor))
                 };
 
-                // If the parity is wrong, we need to swap two tiles with the same label.
-                if (!num::isBoardStateSolvable(boardStateWithCorrectParity)) {
+                if (!num::isBoardStateSolvable(boardState_correctParity)) {
                     std::swap(
-                        boardStateWithCorrectParity[cellsOfLowestPair.first],
-                        boardStateWithCorrectParity[cellsOfLowestPair.second]);
+                        boardState_correctParity[cellsOfLowestPair.first],
+                        boardState_correctParity[cellsOfLowestPair.second]);
                 }
 
-                std::string moveSequence_boardStateWithCorrectParity = num::rowByRow(boardStateWithCorrectParity);
+                std::string moveSequence_boardStateWithCorrectParity = num::rowByRow(boardState_correctParity);
 
                 applyMoveSequence(boardState, cellOfEmptySpace, moveSequence_boardStateWithCorrectParity);
                 moveSequence.append(moveSequence_boardStateWithCorrectParity);
 
                 return moveSequence;
-            }
-
-            bool currentColorAmountIsOdd = currentColorAmount % 2 == 1;
-
-            if (currentColorAmountIsOdd) {
-                for (int i = boardState.size() - 1; i >= 2 * topRow; i--) {
-                    if (boardState[i] == currentColor) {
-                        boardState[i] = -1;
-                        break;
-                    }
-                }
-                currentColorAmount--;
             }
 
             if (currentColorAmount >= 2) {
@@ -205,48 +189,36 @@ namespace kClr {
             }
 
             topRow += std::floor(currentColorAmount / 2);
+            if (topRow > n - 3) break;
 
-            if (currentColorAmountIsOdd) {
-
-                if (boardState[2 * topRow] == -1 && boardState[2 * topRow + 1] == currentColor + 1) {
-                    boardState[2 * topRow] = currentColor;
-
-                    topRow++;
-                    if (topRow >= n - 3) break;
-                    continue;
-                }
-
-                if (topRow >= n - 3) break;
-
-                moveSequence.append(solveRow(boardState, cellOfEmptySpace, topRow, -1, currentColor + 1));
-                boardState[2 * topRow] = currentColor;
-
+            if (currentColorAmount % 2 == 1) {
+                moveSequence.append(solveRow(boardState, cellOfEmptySpace, topRow, currentColor, currentColor + 1));
                 topRow++;
             }
 
             if (topRow > n - 3) break;
         }
 
-        topRow = n - 3;
         if (currentColor < k) {
+            topRow = n - 2;
 
-            std::vector<int> last3Rows_boardState (6);
+            std::vector<int> boardState_last2Rows (4);
             int minColor = targetState[2 * topRow];
 
-            for (int i = 0; i < 6; i++) {
+            for (int i = 0; i < 4; i++) {
                 if (boardState[2 * topRow + i] == -1) {
-                    last3Rows_boardState[i] = 1;
+                    boardState_last2Rows[i] = 1;
                     boardState[2 * topRow + i] = minColor;
                 }
                 else if (boardState[2 * topRow + i] != 0) {
-                    last3Rows_boardState[i] = boardState[2 * topRow + i] - (minColor - 1);
+                    boardState_last2Rows[i] = boardState[2 * topRow + i] - (minColor - 1);
                 }
             }
 
-            std::string last3Rows_optimalSequence = optimalSolution(last3Rows_boardState);
+            std::string optimalSequence_last2Rows = optimalSolution(boardState_last2Rows);
 
-            applyMoveSequence(boardState, cellOfEmptySpace, last3Rows_optimalSequence);
-            moveSequence.append(last3Rows_optimalSequence);
+            applyMoveSequence(boardState, cellOfEmptySpace, optimalSequence_last2Rows);
+            moveSequence.append(optimalSequence_last2Rows);
 
             return moveSequence;
         }
@@ -254,6 +226,5 @@ namespace kClr {
         moveSequence.append(colFirst_moveEmptySpaceToCell(boardState, cellOfEmptySpace, 2 * n - 1));
         return moveSequence;
     }
-
 
 }

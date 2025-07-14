@@ -47,7 +47,6 @@ add_executable(nx2-puzzle-code main.cpp
         Algorithms/tests/twoColor.h
         Algorithms/tests/twoColor.cpp
 
-
 )
 
 if (WIN32)
