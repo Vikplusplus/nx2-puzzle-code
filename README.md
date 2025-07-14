@@ -1,5 +1,5 @@
 # Variations of the n×2-Puzzle and Appropriate Algorithms
-Bachelor's Thesis by Viktor Rieß. 
+Bachelor's Thesis by Viktor Rieß at 
 Goethe University Frankfurt, Department of Computer Science and Mathematics.
 
 An implementation of algorithms for solving 2-column sliding puzzles (n×2 puzzles) written in C++.  
@@ -15,20 +15,20 @@ This project was developed as part of my Bachelor's thesis.
 Open the terminal in any directory and execute the following commands:  
 
 ### On Linux, Mac, and WSL:
-git clone https://github.com/Vikplusplus/nx2-puzzle-code.git  
-cd nx2-puzzle-code  
-mkdir build  
-cd build   
-cmake ..  
-make  
+`git clone https://github.com/Vikplusplus/nx2-puzzle-code.git`  
+`cd nx2-puzzle-code`  
+`mkdir build`  
+`cd build`   
+`cmake ..`  
+`make`  
 
 ### On Windows, using MinGW-w64:
-git clone https://github.com/Vikplusplus/nx2-puzzle-code.git  
-cd nx2-puzzle-code  
-mkdir build  
-cd build   
-cmake .. -G "MinGW Makefiles"  
-cmake --build .  
+`git clone https://github.com/Vikplusplus/nx2-puzzle-code.git`  
+`cd nx2-puzzle-code`  
+`mkdir build`  
+`cd build`   
+`cmake .. -G "MinGW Makefiles"`  
+`cmake --build .`  
 
 ## Run the Code
 After building, open the terminal in the build directory and run:  
