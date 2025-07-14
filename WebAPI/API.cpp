@@ -23,13 +23,13 @@ void runAPI() {
     httplib::Server server;
 
     server.Get("/", [](const httplib::Request&, httplib::Response& res) {
-        res.set_content(readFile("WebAPI/index.html"), "text/html");
+        res.set_content(readFile("../WebAPI/index.html"), "text/html");
     });
     server.Get("/styles.css", [](const httplib::Request&, httplib::Response& res) {
-        res.set_content(readFile("WebAPI/styles.css"), "text/css");
+        res.set_content(readFile("../WebAPI/styles.css"), "text/css");
     });
     server.Get("/script.js", [](const httplib::Request&, httplib::Response& res) {
-        res.set_content(readFile("WebAPI/script.js"), "application/javascript");
+        res.set_content(readFile("../WebAPI/script.js"), "application/javascript");
     });
 
 
