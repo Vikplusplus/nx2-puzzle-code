@@ -1,9 +1,9 @@
 # Variations of the n×2-Puzzle and Appropriate Algorithms
-Bachelor's Thesis by Viktor Rieß at 
+Bachelor's Thesis by Viktor Rieß at   
 Goethe University Frankfurt, Department of Computer Science and Mathematics.
 
 An implementation of algorithms for solving 2-column sliding puzzles (n×2 puzzles) written in C++.  
-Features a web application for playing the puzzle and visualizing the algorithms.
+Features a web application for playing the puzzle and visualizing the algorithms.  
 This project was developed as part of my Bachelor's thesis.
 
 
@@ -32,9 +32,9 @@ Open the terminal in any directory and execute the following commands:
 
 ## Run the Code
 After building, open the terminal in the build directory and run:  
-./nx2-puzzle-code
+`./nx2-puzzle-code`
 
-Now, go to https://localhost:8080 to access the web application.
+Now, go to `https://localhost:8080` to access the web application.
 
 ## Project Structure
 
