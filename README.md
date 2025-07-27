@@ -34,7 +34,7 @@ Open the terminal in any directory and execute the following commands:
 After building, open the terminal in the build directory and run:  
 `./nx2-puzzle-code`
 
-Now, go to `https://localhost:8080` to access the web application.
+Now, go to `http://localhost:8080` to access the web application.
 
 ## Project Structure
 
