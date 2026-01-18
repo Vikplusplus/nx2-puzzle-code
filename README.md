@@ -5,7 +5,8 @@ Goethe University Frankfurt, Department of Computer Science and Mathematics.
 An implementation of algorithms for solving 2-column sliding puzzles (n×2 puzzles) written in C++.  
 Features a web application for playing the puzzle and visualizing the algorithms.  
 This project was developed as part of my Bachelor's thesis.
-
+The thesis is included in this project (Thesis.pdf) and it features 
+a formal description and analysis as well as an evaluation of the algorithms.
 
 ## Requirements 
 - **C++20 compatible compiler** 
